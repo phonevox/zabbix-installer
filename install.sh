@@ -111,11 +111,16 @@ while [[ $# -gt 0 ]]; do
             shift
             add_arg "ZABBIX_ACTIVE_SERVER" $1
         ;;
+        -sa|-as)
+            shift
+            add_arg "ZABBIX_SERVER" $1
+            add_arg "ZABBIX_ACTIVE_SERVER" $1
+        ;;
         --metadata=*)
             add_arg "METADATA" "${1#*=}"
             shift
         ;;
-        --quicksetup)
+        --quick|--quicksetup)
             shift
             add_arg "ADD_METADATA_ASTERISK_VERSION" true
             add_arg "ADD_METADATA_OS_ID" true
@@ -138,7 +143,7 @@ while [[ $# -gt 0 ]]; do
             shift
             add_arg "COMMENT_HOSTMETADATAITEM_IF_UNCOMMENTED" true
         ;;
-        --location)
+        -L|--location)
             shift
             add_arg "METADATA_LOCATION" $1
         ;;
@@ -308,12 +313,6 @@ function check_inputs()
 
     HOSTNAME=${args[HOSTNAME]}
     ZABBIX_SERVER=${args[ZABBIX_SERVER]}
-
-    if [ ${args[ZABBIX_ACTIVE_SERVER]} = "" ]; then
-        ZABBIX_ACTIVE_SERVER=${args[ZABBIX_SERVER]}
-    else
-        ZABBIX_ACTIVE_SERVER=${args[ZABBIX_ACTIVE_SERVER]}
-    fi
 
     if ! ${args[SUDOER]}; then
         NEED_SUDO=false
