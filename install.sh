@@ -8,7 +8,8 @@ ZABBIX_CONFIG_FILE=zabbix_agentd.conf
 ZABBIX_INSTALL_FOLDER=/etc/zabbix
 ZABBIX_CONFIG_FILE=$ZABBIX_INSTALL_FOLDER/$ZABBIX_CONFIG_FILE
 
-ZABBIX_AGENT_RPM="https://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-agent-5.0.38-1.el7.x86_64.rpm"
+ZABBIX_AGENT_VERSION="5.0.42"
+ZABBIX_AGENT_RPM="https://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-agent-$ZABBIX_AGENT_VERSION-1.el7.x86_64.rpm"
 
 # LOGGING
 LOG_TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
@@ -277,10 +278,10 @@ install_rpm_and_agent(){
         exit 1
     fi
 
-    log "DEBUG: $FUNCNAME: Instalando \"yum -y install zabbix-agent-5.0.37-1.el7.x86_64\""
-    sudo yum -y install zabbix-agent-5.0.37-1.el7.x86_64
+    log "DEBUG: $FUNCNAME: Instalando \"yum -y install zabbix-agent-$ZABBIX_AGENT_VERSION-1.el7.x86_64\""
+    sudo yum -y install zabbix-agent-$ZABBIX_AGENT_VERSION-1.el7.x86_64
     if ! [ $? -eq 0 ]; then
-        log "FATAL: $FUNCNAME: install_rpm_and_agent: Não foi possível instalar zabbix-agent-5.0.37-1.el7.x86_64 através do yum. "
+        log "FATAL: $FUNCNAME: install_rpm_and_agent: Não foi possível instalar zabbix-agent-$ZABBIX_AGENT_VERSION-1.el7.x86_64 através do yum. "
         exit 1
     fi
 }
