@@ -139,8 +139,8 @@ while [[ $# -gt 0 ]]; do
             add_arg "COMMENT_HOSTMETADATAITEM_IF_UNCOMMENTED" true
         ;;
         --location)
-            add_arg "METADATA_LOCATION" $1
             shift
+            add_arg "METADATA_LOCATION" $1
         ;;
         --no-sudo)
             shift
