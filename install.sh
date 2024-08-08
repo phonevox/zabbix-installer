@@ -39,13 +39,26 @@ show_help() {
     cat << EOF
 Uso: 
 sudo bash $CURRDIR/$0 -s IP -a IP --hostname NOME
+sudo bash $CURRDIR/$0 -s IP -a IP --hostname NOME --quicksetup
 sudo bash $CURRDIR/$0 [opções...]
 
 Opções:
+
+CONFIGURAÇÕES PRINCIPAIS DO ZABBIX
  -H, --hostname <STRING>             *Hostname do HOST que será adicionado ao Zabbix Server.
  -s, --server <IP>                   *Endereço IP ou DNS do Servidor Zabbix.
  -a, --active-server <IP>            Endereço IP ou DNS do Servidor para checks Ativos.
- --metadata="<STRING>"               Repassa meta-dados para adicionar ao arquivo de configuração do Zabbix Agent".
+ 
+ MANIPULAÇÃO DA METADATA
+ --comment-hostmetadataitem          Comenta o parâmetro "HostMetadataItem" do arquivo de configuração.
+ --metadata="<STRING>"               Repassa meta-dados customizados, para adicionar ao arquivo de configuração.
+ --metadata-asterisk                 Meta-dado pré-setado para obter a versão do asterisk no padrão "ast:<valor>".
+ --metadata-os-id                    Meta-dado pré-setado para obter o ID do sistema operacional. Padrão "OSid:<valor>".
+ --metadata-os-name                  Meta-dado pré-setado para obter o nome do sistema operacional. Padrão "OSNAME:<valor>".
+ --location <STRING>                 Meta-dado pré-setado recebendo 1 argumento. Padrão "location:<STRING>".
+
+EXTRAS
+ --quicksetup                        Substituto para todas as outras opções exceto as obrigatórias.
  --no-sudo                           Não adicionar o usuário "zabbix" à lista de usuários sudo. O usuário "zabbix"
                                      precisa de permissões sudoer pra executar scripts no host.
  -h, --help                          Exibe este menu de ajuda.
@@ -109,6 +122,26 @@ while [[ $# -gt 0 ]]; do
             add_arg "ADD_METADATA_OS_ID" true
             add_arg "ADD_METADATA_OS_NAME" true
             add_arg "COMMENT_HOSTMETADATAITEM_IF_UNCOMMENTED" true
+        ;;
+        --metadata-asterisk)
+            shift
+            add_arg "ADD_METADATA_ASTERISK_VERSION" true
+        ;;
+        --metadata-os-id)
+            shift
+            add_arg "ADD_METADATA_OS_ID" true
+        ;;
+        --metadata-os-name)
+            shift
+            add_arg "ADD_METADATA_OS_NAME" true
+        ;;
+        --comment-hostmetadataitem)
+            shift
+            add_arg "COMMENT_HOSTMETADATAITEM_IF_UNCOMMENTED" true
+        ;;
+        --location)
+            add_arg "METADATA_LOCATION" $1
+            shift
         ;;
         --no-sudo)
             shift
@@ -439,6 +472,11 @@ function edit_config_file()
         if [ ${args[ADD_METADATA_ASTERISK_VERSION]} ]; then
             ASTERISK_VERSION=$(asterisk -V | awk -F"Asterisk " '{print $2}')
             add_custom_metadata "ast:$ASTERISK_VERSION"
+        fi
+
+        log "[DEBUG] Metadata Location: ${args[METADATA_LOCATION]}"
+        if [ -n "$args[METADATA_LOCATION]" ]; then
+            add_custom_metadata "location:${args[METADATA_LOCATION]}"
         fi
 
         add_custom_metadata "${args[METADATA]}" # Adicionando metadados especiais repassados pelo --metadata=""
