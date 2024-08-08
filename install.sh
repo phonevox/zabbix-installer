@@ -82,17 +82,16 @@ function add_arg()
     local ARGUMENT=$1
     local VALUE=$2
 
-    if [ -z "$VALUE" ] || [[ $VALUE == -* ]]; then # Conferindo se VALUE está vazio ou começa com "-". Caso seja o segundo caso, provavelmente é uma flag...
-        echo "FATAL: $FUNCNAME: Valor obrigatório para '$ARGUMENT'"
-        exit 1
-    fi
-    #echo "[INFO] ADD_ARG: Valor de $1 -> ${args[$ARGUMENT]}"
     if [ ! ${args[$ARGUMENT]} ]; then
+        if $DEBUG_MODE; then
+            log "$DEBUG [${FUNCNAME[0]}] $ARGUMENT -> $VALUE"
+        fi
         args+=( [$ARGUMENT]=$2 )
         return 0
     else
-        #echo "[DEBUG] ADD_ARG: Arg $1 já existe."
-        #echo "[INFO] ADDARG: Lista de Args -> ${!args[@]}"
+        if $DEBUG_MODE; then
+            log "$WARN [${FUNCNAME[0]}] $ARGUMENT -> $VALUE (Ignoring repeating argument. Current value: ${args[$ARGUMENT]})"
+        fi
         return 1
     fi
 }
