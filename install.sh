@@ -121,27 +121,27 @@ while [[ $# -gt 0 ]]; do
             shift
         ;;
         --quick|--quicksetup)
-            shift
             add_arg "ADD_METADATA_ASTERISK_VERSION" true
             add_arg "ADD_METADATA_OS_ID" true
             add_arg "ADD_METADATA_OS_NAME" true
             add_arg "COMMENT_HOSTMETADATAITEM_IF_UNCOMMENTED" true
+            shift
         ;;
         --metadata-asterisk)
-            shift
             add_arg "ADD_METADATA_ASTERISK_VERSION" true
+            shift
         ;;
         --metadata-os-id)
-            shift
             add_arg "ADD_METADATA_OS_ID" true
+            shift
         ;;
         --metadata-os-name)
-            shift
             add_arg "ADD_METADATA_OS_NAME" true
+            shift
         ;;
         --comment-hostmetadataitem)
-            shift
             add_arg "COMMENT_HOSTMETADATAITEM_IF_UNCOMMENTED" true
+            shift
         ;;
         -L|--location)
             shift
