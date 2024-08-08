@@ -116,39 +116,32 @@ while [[ $# -gt 0 ]]; do
             add_arg "ZABBIX_SERVER" $1
             add_arg "ZABBIX_ACTIVE_SERVER" $1
         ;;
+        -L|--location)
+            shift
+            add_arg "METADATA_LOCATION" $1
+        ;;
         --metadata=*)
             add_arg "METADATA" "${1#*=}"
-            shift
         ;;
         --quick|--quicksetup)
             add_arg "ADD_METADATA_ASTERISK_VERSION" true
             add_arg "ADD_METADATA_OS_ID" true
             add_arg "ADD_METADATA_OS_NAME" true
             add_arg "COMMENT_HOSTMETADATAITEM_IF_UNCOMMENTED" true
-            shift
         ;;
         --metadata-asterisk)
             add_arg "ADD_METADATA_ASTERISK_VERSION" true
-            shift
         ;;
         --metadata-os-id)
             add_arg "ADD_METADATA_OS_ID" true
-            shift
         ;;
         --metadata-os-name)
             add_arg "ADD_METADATA_OS_NAME" true
-            shift
         ;;
         --comment-hostmetadataitem)
             add_arg "COMMENT_HOSTMETADATAITEM_IF_UNCOMMENTED" true
-            shift
-        ;;
-        -L|--location)
-            shift
-            add_arg "METADATA_LOCATION" $1
         ;;
         --no-sudo)
-            shift
             add_arg "SUDOER" false
         ;;
         -h|--help)
