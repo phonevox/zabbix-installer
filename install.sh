@@ -479,7 +479,7 @@ function edit_config_file()
         fi
 
         # Convertendo todos os metadados para LOWERCASE
-        CUSTOM_METADATA = $(echo $CUSTOM_METADATA | perl -ne 'print lc')
+        CUSTOM_METADATA = $(echo $CUSTOM_METADATA | tr '[:upper:]' '[:lower:]')
     }
 
     check_parameter "Server"
