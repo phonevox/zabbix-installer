@@ -477,6 +477,9 @@ function edit_config_file()
             log "FATAL: Metadados grandes demais. (${#CUSTOM_METADATA}>255) (METADATA: $CUSTOM_METADATA)"
             exit 1
         fi
+
+        # Convertendo todos os metadados para LOWERCASE
+        CUSTOM_METADATA = $(echo $CUSTOM_METADATA | perl -ne 'print lc')
     }
 
     check_parameter "Server"
