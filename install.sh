@@ -83,7 +83,7 @@ AUTOMAÇÃO
 
 Exemplo simples:
 
-install.sh --hostname srv-asterisk --server 10.0.0.10
+install.sh --hostname srv-asterisk --server 10.0.0.10 --quicksetup
 
 10.0.0.10 = IP do servidor Zabbix
 
